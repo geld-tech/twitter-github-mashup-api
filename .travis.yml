@@ -1,0 +1,101 @@
+##############################################################################################
+#
+# Travis CI configuration file
+# 
+# Set the required secrets in the build settings of the project:
+#   - BINTRAY_USER
+#   - BINTRAY_API_KEY
+#
+##############################################################################################
+env:
+  global:
+  - PACKAGE_NAME=twitter-github-mashup-api
+  - PACKAGE_DOMAIN=geld.tech
+  - PACKAGE_DESC="Twitter/GitHub APIs Mashup Application built in Python Flask"
+  - BINTRAY_REPO_NAME=debian
+  - BINTRAY_LICENSE=Apache-2.0
+  - BINTRAY_DESCRIPTOR=bintray-descriptor.json.in
+
+before_install:
+  # Export variables containing versions and filename
+  - export RELEASE_VERSION=$(cat VERSION)
+  - export BUILD_VERSION=$RELEASE_VERSION.$TRAVIS_BUILD_NUMBER
+  - export BUILD_DATE=$(date "+%Y%m%d")
+  - export PACKAGE_VERSION=$PACKAGE_NAME-$BUILD_VERSION
+  - export PACKAGE_VERSION_DEB=$PACKAGE_VERSION.deb
+
+script:
+  # Create the package direectories structure
+  - mkdir $PACKAGE_VERSION
+  - cp -p -r sources/* $PACKAGE_VERSION
+  - cp -p -r DEBIAN/ $PACKAGE_VERSION
+  # Replace version and build number with the Debian control file
+  - sed -i "s/__PACKAGE_NAME__/$PACKAGE_NAME/g" $PACKAGE_VERSION/DEBIAN/control
+  - sed -i "s/__PACKAGE_DESC__/$PACKAGE_DESC/g" $PACKAGE_VERSION/DEBIAN/control
+  - sed -i "s/__VERSION__/$BUILD_VERSION/g" $PACKAGE_VERSION/DEBIAN/control
+  - sed -i "s/__USER__/$BINTRAY_USER/g" $PACKAGE_VERSION/DEBIAN/control
+  - sed -i "s/__DATE__/$BUILD_DATE/g" $PACKAGE_VERSION/DEBIAN/control
+  # Replace Google Analytics agent ID
+  - find $PACKAGE_VERSION -type f -exec sed -i "s/__GA_UA_ID__/$GA_UA_ID/g" {} \;
+  - find $PACKAGE_VERSION -type f -exec sed -i "s/__PACKAGE_NAME__/$PACKAGE_NAME/g" {} \;
+  - find $PACKAGE_VERSION -type f -exec sed -i "s/__PACKAGE_DOMAIN__/$PACKAGE_DOMAIN/g" {} \;
+  - find $PACKAGE_VERSION -type f -exec sed -i "s/__PACKAGE_DESC__/$PACKAGE_DESC/g" {} \;
+  # Create the Debian package
+  - dpkg-deb --build $PACKAGE_VERSION
+
+after_success:
+  # Stores hashes of created package to ensure upload successful
+  - export LOCAL_SHA256=$( sha256sum $PACKAGE_VERSION_DEB | cut -d " " -f1 )
+  - 'echo "LOCAL_SHA256=$LOCAL_SHA256"'
+  # Output detail on the resulting package for debugging purpose
+  - ls -l $PACKAGE_VERSION
+  - dpkg --contents $PACKAGE_VERSION_DEB
+  - md5sum $PACKAGE_VERSION_DEB
+  - sha256sum $PACKAGE_VERSION_DEB
+
+before_deploy:
+  # Set the packages name and details in the descriptor file
+  - sed -i "s/__NAME__/$PACKAGE_NAME/g" $BINTRAY_DESCRIPTOR
+  - sed -i "s/__REPO_NAME__/$BINTRAY_REPO_NAME/g" $BINTRAY_DESCRIPTOR
+  - sed -i "s/__SUBJECT__/$BINTRAY_SUBJECT/g" $BINTRAY_DESCRIPTOR
+  - sed -i "s/__LICENSE__/$BINTRAY_LICENSE/g" $BINTRAY_DESCRIPTOR
+  - sed -i "s/__VERSION__/$BUILD_VERSION/g" $BINTRAY_DESCRIPTOR
+  - sed -i "s/__PACKAGE_DESC__/$PACKAGE_DESC/g" $BINTRAY_DESCRIPTOR
+
+deploy:
+  # Upload debian packages to Bintray
+  provider: bintray
+  file: $BINTRAY_DESCRIPTOR
+  user: $BINTRAY_USER
+  key: $BINTRAY_API_KEY
+  skip_cleanup: true
+  dry_run: false
+
+after_deploy:
+  # Retrieve releases list and delete old packages files
+  - sleep 60
+  - 'export OLD_RELEASES=$(curl -L -v --silent https://bintray.com/$BINTRAY_SUBJECT/$BINTRAY_REPO_NAME/download_file?file_path=Packages.gz | zcat | grep -A 6 "Package: $PACKAGE_NAME" | grep Version | cut -d" " -f2 | sort -V | head -n -5)'
+  - 'echo "OLD_RELEASES: $OLD_RELEASES"'
+  - >
+    for RELEASE_NUM in $OLD_RELEASES; do
+      echo "Sending API request to delete $PACKAGE_NAME version $RELEASE_NUM" ;
+      curl --silent --show-error --fail -X DELETE -u$BINTRAY_USER:$BINTRAY_API_KEY https://api.bintray.com/content/$BINTRAY_SUBJECT/$BINTRAY_REPO_NAME/$PACKAGE_NAME-$RELEASE_NUM.deb ;
+      curl --silent --show-error --fail -X DELETE -u$BINTRAY_USER:$BINTRAY_API_KEY https://api.bintray.com/content/$BINTRAY_SUBJECT/$BINTRAY_REPO_NAME/$PACKAGE_NAME-$RELEASE_NUM.deb.asc ;
+      sleep 5 ;
+    done
+  
+  # Add time delay to let the servers process the uploaded new version and delete old files
+  - sleep 120
+  
+  # Retrieve SHA256 sum and compare with local sum to ensure correct file uploaded
+  - export REMOTE_SHA256=$(curl -L -v --silent https://bintray.com/$BINTRAY_SUBJECT/$BINTRAY_REPO_NAME/download_file?file_path=Packages.gz | zcat | grep -A 3 $PACKAGE_VERSION_DEB | grep SHA256 | cut -d" " -f2)
+  - 'echo "REMOTE_SHA256: $REMOTE_SHA256"'
+  - >
+    if [[ "$LOCAL_SHA256" != "$REMOTE_SHA256" ]]; then
+      echo "SHA256 sums don't match: $LOCAL_SHA256 vs $REMOTE_SHA256";
+      travis_terminate 1;
+    fi
+
+  # Place link to the file in download list
+  - >
+    curl --silent --show-error --fail -X PUT -H "Content-Type: application/json" -d'{"list_in_downloads": true}' -u$BINTRAY_USER:$BINTRAY_API_KEY https://api.bintray.com/file_metadata/$BINTRAY_SUBJECT/$BINTRAY_REPO_NAME/$PACKAGE_VERSION_DEB
