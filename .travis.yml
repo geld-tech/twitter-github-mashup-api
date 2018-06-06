@@ -11,7 +11,7 @@ env:
   global:
   - PACKAGE_NAME=twitter-github-mashup-api
   - PACKAGE_DOMAIN=geld.tech
-  - PACKAGE_DESC="Twitter/GitHub APIs Mashup Application built in Python Flask"
+  - PACKAGE_DESC="Twitter and GitHub APIs Mashup Application built in Python Flask"
   - BINTRAY_REPO_NAME=debian
   - BINTRAY_LICENSE=Apache-2.0
   - BINTRAY_DESCRIPTOR=bintray-descriptor.json.in
