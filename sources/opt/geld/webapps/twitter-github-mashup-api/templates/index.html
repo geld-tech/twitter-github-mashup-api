@@ -2,87 +2,69 @@
 
     {% block body %}
 
-      <div class="row">
-        {% for website in data %}
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="{{ website.location }}"><img class="card-img-top" src="{{ url_for('static', filename='data/'+website.screenshot ) }}" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="{{ website.location }}">{{ website.title }}</a>
-              </h4>
-              <p class="card-text">{{ website.description }}</p>
-            </div>
-          </div>
-        </div>
+      <div>
+        {% for result in data %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Keyword</th>
+              <th scope="col">Source</th>
+              <th scope="col">Destination</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
         {% else %}
         <!-- stub data if no projects found or not loaded yet -->
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project One</a>
-              </h4>
-              <p class="card-text">Project description</p>
+
+        <form>
+            <div class="form-group">
+                <label for="searchSource">Search Source</label>
+                <select class="form-control" id="searchSource">
+                    <option>Twitter</option>
+                    <option>GitHub</option>
+                </select>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Two</a>
-              </h4>
-              <p class="card-text">Project description</p>
+            <div class="form-group">
+                <label for="searchDestination">Search Destination</label>
+                <select class="form-control" id="searchDestination">
+                    <option>GitHub</option>
+                    <option>Twitter</option>
+                </select>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Three</a>
-              </h4>
-              <p class="card-text">Project description</p>
+            <div class="form-group row">
+                <label for="keywordSearch" class="col-2 col-form-label">Keyword</label>
+                <div class="col-10">
+                    <input class="form-control" type="search" value="" id="keywordSearch">
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Four</a>
-              </h4>
-              <p class="card-text">Project description</p>
+            <div class="form-group">
+                <label for="textSearch">Text Search</label>
+                <textarea class="form-control" id="textSearch" rows="3"></textarea>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Five</a>
-              </h4>
-              <p class="card-text">Project description</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Six</a>
-              </h4>
-              <p class="card-text">Project description</p>
-            </div>
-          </div>
-        </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
         {% endfor %}
       </div>
       <!-- /.row -->
