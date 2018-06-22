@@ -1,12 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html itemscope itemtype="http://schema.org/QAPage" class="" lang="en">
+
   <head>
+
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>__PACKAGE_NAME__</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="__PACKAGE_DESC__">
+    <meta name="author" content="{{ page_domain }}">
+
+    <title>{{ page_domain + ' - ' if data }}{{ page_title }}</title>
+
+    <meta property="og:title" content="{{ page_title }}">
+    <meta property="og:description" content="__PACKAGE_DESC__">
+    <meta property="og:site_name" content="{{ page_title }}">
+    <meta property="og:type" content= "website">
+    <meta property="og:image" content="{{ url_for('static', filename='images/geld.tech_128x128.png') }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:domain" content="{{ page_domain }}">
+    <meta name="twitter:title" content="{{ page_title }}">
+    <meta name="twitter:description" content="__PACKAGE_DESC__">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="icon" sizes="192x192" href="{{ url_for('static', filename='images/geld.tech_192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/geld.tech_180x180.png') }}">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='images/geld.tech_144x144.png') }}">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+
   </head>
+
   <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="http://{{ page_domain }}">
+          <img src="{{ url_for('static', filename='images/geld.tech_32x32.png') }}" width="30" height="30" alt="" />
+          {{ page_domain }}
+        </a>
+      </div>
+    </nav>
+
+    <!-- Page Content (auto-injected) -->
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+
+    <!-- Footer -->
+    <footer class="py-1 bg-white fixed-bottom">
+      <div class="container">
+        <p class="m-0 text-center">copyright &copy; {{ page_domain }} 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=__GA_UA_ID__"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '__GA_UA_ID__');
+    </script>
+
   </body>
 </html>
