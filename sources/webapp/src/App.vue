@@ -1,13 +1,11 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <b-nav justified tabs>
-      <b-nav-item v-bind:to="'/'">Hello</b-nav-item>
-      <b-nav-item v-bind:to="'hi'">Hi</b-nav-item>
-      <b-nav-item v-bind:to="'bye'">Bye</b-nav-item>
-      <b-nav-item v-bind:to="'404'">Not Found</b-nav-item>
-    </b-nav>
-    <router-view/>
+    <b-container class="bv-example-row">
+        <b-row align-v="start">
+            <b-col>Twitter</b-col>
+            <b-col>GitHub</b-col>
+        </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -25,5 +23,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  padding-top: 70px;
 }
 </style>

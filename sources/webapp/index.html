@@ -27,19 +27,31 @@
     <meta name="msapplication-TileImage" content="{{ url_for('static', filename='images/geld.tech_144x144.png') }}">
     <meta name="msapplication-TileColor" content="#FFFFFF">
 
+    <!-- CSS files will be appended by NPM -->
+
   </head>
 
   <body>
+    <!--
+        Current layout page uses bootstrap CSS
+        Vue files uses bootstrap-vue CSS and JS to avoid conflicts with JQuery
+     -->
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="http://{{ page_domain }}">
-          <img src="{{ url_for('static', filename='images/geld.tech_32x32.png') }}" width="30" height="30" alt="" />
-          {{ page_domain }}
-        </a>
-      </div>
-    </nav>
+    <div id="nav">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+          <div class="container">
+            <a class="navbar-brand" href="http://{{ page_domain }}">
+                <img src="{{ url_for('static', filename='images/geld.tech_32x32.png') }}" width="30" height="30" alt="" />
+                {{ page_domain }}
+            </a>
+            <form class="form-inline" action="#">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+    </div>
 
     <!-- Page Content (auto-injected) -->
     <div id="app"></div>
@@ -51,10 +63,6 @@
       </div>
       <!-- /.container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=__GA_UA_ID__"></script>
