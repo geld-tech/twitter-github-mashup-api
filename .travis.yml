@@ -48,9 +48,6 @@ install:
   - cd sources/webapp/
   - npm install
   - npm run lint
-  - ls -lsthRA .
-  - ls -lsthRA build/build.js
-  - cat build/build.js
   - npm run build
   - cd ../..
 
