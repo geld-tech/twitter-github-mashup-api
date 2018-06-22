@@ -9,11 +9,22 @@
 
 ## Description
 
-Twitter/GitHub APIs Mashup Application built in Python Flask
+Twitter/GitHub APIs Mashup Application built with Python Flask and Node.js
+
 
 ## Demo
 
 A sample demo of the project is hosted on <a href="http://geld.tech">geld.tech</a>.
+
+
+## Development
+
+Use `local-dev.sh` script to build and run locally the Flask server with API and the Vue web application with DevTools enabled for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/) and [Chrome](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd):
+
+```
+$ ./local-dev.sh
+```
+Then, access the application locally using a browser at the address: [http://0.0.0.0:5000/](http://0.0.0.0:5000/).
 
 
 ## Usage
@@ -40,15 +51,4 @@ $ sudo apt install twitter-github-mashup-api
 $ sudo systemctl daemon-reload
 $ sudo systemctl start twitter-github-mashup-api
 $ sudo systemctl status twitter-github-mashup-api
-```
-
-## Settings
-
-The following environment variables need to be configured in the Travis CI settings page to ensure a good build and deployment:
-
-```
-- BINTRAY_USER		Username used to upload to Bintray
-- BINTRAY_API_KEY	API Key used to upload in Bintray
-- BINTRAY_SUBJECT	User or organisation used to upload in Bintray
-- GA_UA_ID		Google Analytics User ID
 ```
