@@ -7,39 +7,66 @@
 #   - BINTRAY_API_KEY
 #
 ##############################################################################################
+sudo: false
+language: node_js
+node_js:
+  - "6"
+
+cache:
+  directories:
+    - $HOME/.npm
+
 env:
   global:
   - PACKAGE_NAME=twitter-github-mashup-api
-  - PACKAGE_DOMAIN=geld.tech
-  - PACKAGE_DESC="Twitter and GitHub APIs Mashup Application built in Python Flask"
+  - PACKAGE_DESC="Twitter and GitHub APIs Mashup Application built with Python Flask and Vue"
   - BINTRAY_REPO_NAME=debian
   - BINTRAY_LICENSE=Apache-2.0
   - BINTRAY_DESCRIPTOR=bintray-descriptor.json.in
 
 before_install:
   # Export variables containing versions and filename
+  - export PACKAGE_DIR=/opt/geld/webapps/$PACKAGE_NAME
   - export RELEASE_VERSION=$(cat VERSION)
   - export BUILD_VERSION=$RELEASE_VERSION.$TRAVIS_BUILD_NUMBER
   - export BUILD_DATE=$(date "+%Y%m%d")
   - export PACKAGE_VERSION=$PACKAGE_NAME-$BUILD_VERSION
   - export PACKAGE_VERSION_DEB=$PACKAGE_VERSION.deb
+  # Replace version and build number with the Debian control file
+  - find . -type f | xargs sed -i "s/__PACKAGE_NAME__/$PACKAGE_NAME/g"
+  - find . -type f | xargs sed -i "s/__PACKAGE_DESC__/$PACKAGE_DESC/g"
+  - find . -type f | xargs sed -i "s/__VERSION__/$BUILD_VERSION/g"
+  - find . -type f | xargs sed -i "s/__USER__/$BINTRAY_USER/g"
+  - find . -type f | xargs sed -i "s/__DATE__/$BUILD_DATE/g"
+  - find . -type f | xargs sed -i "s/__GA_UA_ID__/$GA_UA_ID/g"
+  - find . -type f | xargs sed -i "s.__PACKAGE_DIR__.$PACKAGE_DIR.g"
+
+install:
+  # NPM packages
+  - npm update -g npm
+  # Build Vue web application
+  - cd sources/webapp/
+  - npm install
+  - npm run lint
+  - npm run build
+  - cd ../..
+
+before_script:
+  # Create the package directories structure
+  - mkdir $PACKAGE_VERSION
+  - mkdir -p $PACKAGE_VERSION/$PACKAGE_DIR/templates/
+  - mkdir -p $PACKAGE_VERSION/$PACKAGE_DIR/static/
+  - mkdir -p $PACKAGE_VERSION/DEBIAN/
+  # Layout the files in the directories structure
+  - rsync -a --chown=root:www-data sources/files/ $PACKAGE_VERSION/
+  - rsync -a --chown=root:www-data sources/server/ $PACKAGE_VERSION/$PACKAGE_DIR
+  - rsync -a --chown=root:www-data sources/webapp/dist/*.html $PACKAGE_VERSION/$PACKAGE_DIR/templates/
+  - rsync -a -r --chown=root:www-data sources/webapp/dist/static/ $PACKAGE_VERSION/$PACKAGE_DIR/static/
+  - rsync -a -r --chown=root:www-data packages/DEBIAN/ $PACKAGE_VERSION/DEBIAN/
+  # Output files and directories for debugging purpose
+  - ls -lsthRA $PACKAGE_VERSION/
 
 script:
-  # Create the package direectories structure
-  - mkdir $PACKAGE_VERSION
-  - cp -p -r sources/* $PACKAGE_VERSION
-  - cp -p -r DEBIAN/ $PACKAGE_VERSION
-  # Replace version and build number with the Debian control file
-  - sed -i "s/__PACKAGE_NAME__/$PACKAGE_NAME/g" $PACKAGE_VERSION/DEBIAN/control
-  - sed -i "s/__PACKAGE_DESC__/$PACKAGE_DESC/g" $PACKAGE_VERSION/DEBIAN/control
-  - sed -i "s/__VERSION__/$BUILD_VERSION/g" $PACKAGE_VERSION/DEBIAN/control
-  - sed -i "s/__USER__/$BINTRAY_USER/g" $PACKAGE_VERSION/DEBIAN/control
-  - sed -i "s/__DATE__/$BUILD_DATE/g" $PACKAGE_VERSION/DEBIAN/control
-  # Replace Google Analytics agent ID
-  - find $PACKAGE_VERSION -type f -exec sed -i "s/__GA_UA_ID__/$GA_UA_ID/g" {} \;
-  - find $PACKAGE_VERSION -type f -exec sed -i "s/__PACKAGE_NAME__/$PACKAGE_NAME/g" {} \;
-  - find $PACKAGE_VERSION -type f -exec sed -i "s/__PACKAGE_DOMAIN__/$PACKAGE_DOMAIN/g" {} \;
-  - find $PACKAGE_VERSION -type f -exec sed -i "s/__PACKAGE_DESC__/$PACKAGE_DESC/g" {} \;
   # Create the Debian package
   - dpkg-deb --build $PACKAGE_VERSION
 
@@ -69,7 +96,6 @@ deploy:
   user: $BINTRAY_USER
   key: $BINTRAY_API_KEY
   skip_cleanup: true
-  dry_run: false
 
 after_deploy:
   # Retrieve releases list and delete old packages files
