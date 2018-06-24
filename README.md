@@ -17,16 +17,6 @@ Twitter/GitHub APIs Mashup Application built with Python Flask and Node.js
 A sample demo of the project is hosted on <a href="http://geld.tech">geld.tech</a>.
 
 
-## Development
-
-Use `local-dev.sh` script to build and run locally the Flask server with API and the Vue web application with DevTools enabled for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/) and [Chrome](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd):
-
-```
-$ ./local-dev.sh
-```
-Then, access the application locally using a browser at the address: [http://0.0.0.0:5000/](http://0.0.0.0:5000/).
-
-
 ## Usage
 
 * Install the repository information and associated GPG key (to ensure authenticity):
@@ -52,3 +42,15 @@ $ sudo systemctl daemon-reload
 $ sudo systemctl start twitter-github-mashup-api
 $ sudo systemctl status twitter-github-mashup-api
 ```
+
+
+## Development
+
+Use `local-dev.sh` script to build and run locally the Flask server with API and the Vue web application with DevTools enabled for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/) and [Chrome](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd):
+
+```
+$ ./local-dev.sh
+```
+Then, access the application locally using a browser at the address: [http://0.0.0.0:5000/](http://0.0.0.0:5000/).
+
+
