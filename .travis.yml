@@ -48,6 +48,7 @@ install:
   - cd sources/webapp/
   - npm install
   - npm run lint
+  - npm audit
   - npm run build
   - cd ../..
 

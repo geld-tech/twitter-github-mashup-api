@@ -21,6 +21,7 @@ cd webapp/
 sed -i '/Vue.config.productionTip = false/a Vue.config.devtools = true' src/main.js
 npm install
 npm run lint
+npm audit
 npm run build
 cd ..
 
