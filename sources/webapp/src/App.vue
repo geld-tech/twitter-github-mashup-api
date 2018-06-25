@@ -21,7 +21,7 @@
         <b-row align-v="start">
             <b-col>
                 <ul id="github">
-                  <li v-for="(index, item) in data" v-bind:key="index"><a href="#" @click.prevent="selected=item">{{ item }}</a></li>
+                  <li v-for="(index, item) in data" v-bind:key="index"><a href="#" v-on:click="selected=item">{{ item }}</a></li>
                 </ul>
             </b-col>
             <b-col></b-col>
