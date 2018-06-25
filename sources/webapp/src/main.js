@@ -14,10 +14,10 @@ Vue.use(Navbar)
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
-new Vue({
+var vm = new Vue({
   el: '#app',
   router,
   components: { App },
   template: '<App/>'
 })
+vm.$mount('#main')
