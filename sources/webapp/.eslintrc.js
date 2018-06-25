@@ -21,6 +21,8 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    // allows using new
+    "no-new": 0,
     // ignore space-before-function-paren
     'space-before-function-paren': 'off',
     // allow async-await
