@@ -18,6 +18,14 @@
             <b-col>Twitter</b-col>
             <b-col>GitHub</b-col>
         </b-row>
+        <b-row align-v="start">
+            <b-col>
+                <ul id="github">
+                  <li v-for="(index, item) in data" v-bind:key="index"><a href="#" @click.prevent="selected=item">{{ item }}</a></li>
+                </ul>
+            </b-col>
+            <b-col></b-col>
+        </b-row>
     </b-container>
   </div>
 </template>
@@ -33,6 +41,7 @@ export default {
         keyword: ''
       },
       data: [],
+      selected: '',
       projects: [],
       tweets: [],
       show: true
@@ -61,7 +70,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
   padding-top: 70px;
