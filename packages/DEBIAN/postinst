@@ -27,7 +27,8 @@ case "$1" in
 			echo ""
 			echo "Service __PACKAGE_NAME__ installed successfully!"
 			echo ""
-			echo "Edit the file __PACKAGE_DIR__/config/settings.cfg with your credentials, then execute 'systemctl start __PACKAGE_NAME__'."
+			echo "Edit the file __PACKAGE_DIR__/config/settings.cfg with your credentials, then execute the following command to start the service:"
+            echo "  systemctl start __PACKAGE_NAME__"
 		fi
 		;;
 esac
