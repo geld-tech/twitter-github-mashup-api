@@ -5,7 +5,7 @@ __pycache__/
 
 # Local Dev
 .local_dev/
-sources/server/config/settings.cfg.template
+sources/server/config/settings.cfg
 
 # C extensions
 *.so
