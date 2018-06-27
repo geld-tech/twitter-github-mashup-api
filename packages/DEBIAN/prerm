@@ -6,4 +6,6 @@ echo "Pre-Removal Macro"
 systemctl disable __PACKAGE_NAME__ || true
 systemctl stop __PACKAGE_NAME__ || true
 
+rm -f __PACKAGE_DIR__/config/settings.cfg
+
 exit 0

@@ -31,8 +31,12 @@ mkdir templates/
 mkdir static/
 cp ../webapp/dist/*.html templates/
 cp -r ../webapp/dist/static/* static/
-cp -p config/settings.cfg.template config/settings.cfg
 cd ..
+
+# Copy local config template if no configuration set (ignored via .gitignore)
+if [ ! -f server/config/settings.cfg ]; then
+    cp -p server/config/settings.cfg.template server/config/settings.cfg
+fi
 
 # Run application locally on port :5000 (Press CTRL+C to quit)
 cd server/
