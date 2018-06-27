@@ -4,6 +4,8 @@ set -e
 echo "Pre-Installation Macro"
 
 case "$1" in
+	install)
+		;;
 	upgrade)
 		echo -n "Stopping service __PACKAGE_NAME__ ..."
 		systemctl stop __PACKAGE_NAME__ || true
