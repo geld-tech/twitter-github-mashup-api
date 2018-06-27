@@ -25,7 +25,7 @@
                 </div>
                 <div v-else>
                     <ul id="github">
-                      <li v-for="(index, item) in data" v-bind:key="index"><a href="#" v-on:click="selected=item">{{ item }}</a></li>
+                      <li v-for="(index, item) in data" v-bind:key="index"><a href="#" v-on:click="selected=item">{{ item }}</a>({{ data[item].length }})</li>
                     </ul>
                 </div>
             </b-col>
@@ -47,7 +47,6 @@ export default {
         keyword: ''
       },
       data: [],
-      projects: [],
       tweets: [],
       selected: '',
       loading: false,
