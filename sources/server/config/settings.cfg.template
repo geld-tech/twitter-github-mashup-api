@@ -5,7 +5,7 @@ limit=10
 [twitter]
 api_url_timeline=https://api.twitter.com/1.1/statuses/home_timeline.json
 api_url_search=https://api.twitter.com/1.1/search/tweets.json
-access_token="ACCESS_TOKEN"
-access_secret="ACCESS_SECRET"
-consumer_key="CONSUMER_KEY"
-consumer_secret="CONSUMER_SECRET"
+access_token=__ACCESS_TOKEN__
+access_secret=__ACCESS_SECRET__
+consumer_key=__CONSUMER_KEY__
+consumer_secret=__CONSUMER_SECRET__
