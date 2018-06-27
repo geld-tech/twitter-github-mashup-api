@@ -14,18 +14,22 @@ case "$1" in
 		if [ "$IS_UPGRADE" = "true" ]; then
 			echo -n "Restarting service..."
 			systemctl daemon-reload
-			systemctl restart __PACKAGE_NAME__ || true
+			systemctl start __PACKAGE_NAME__ || true
 			echo " OK"
+			echo ""
+			echo "Service __PACKAGE_NAME__ upgraded successfully!!"
 		else
 			echo -n "Starting service..."
 			systemctl daemon-reload
 			systemctl enable __PACKAGE_NAME__ || true
-			#systemctl start __PACKAGE_NAME__ || true
 			echo " OK"
+			cp -p __PACKAGE_DIR__/config/settings.cfg.template __PACKAGE_DIR__/config/settings.cfg
 			echo ""
 			echo "Service __PACKAGE_NAME__ installed successfully!"
 			echo ""
-			echo "Edit the file __PACKAGE_DIR__/config/settings with your credentials, then execute 'systemctl start __PACKAGE_NAME__'."
+			echo "Edit the file __PACKAGE_DIR__/config/settings.cfg with your credentials, then execute 'systemctl start __PACKAGE_NAME__'."
 		fi
 		;;
 esac
+
+exit 0
