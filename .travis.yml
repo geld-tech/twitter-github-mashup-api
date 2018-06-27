@@ -7,7 +7,15 @@
 #   - BINTRAY_API_KEY
 #
 ##############################################################################################
+os: linux
+dist: trusty
 sudo: false
+
+addons:
+  apt:
+    packages:
+    - fakeroot
+
 language: node_js
 node_js:
   - "6"
@@ -68,8 +76,8 @@ before_script:
   - ls -lsthRA $PACKAGE_VERSION/
 
 script:
-  # Create the Debian package
-  - dpkg-deb --build $PACKAGE_VERSION
+  # Create the Debian package using fakeroot forcing ownership to root user
+  - fakeroot dpkg-deb --build $PACKAGE_VERSION
 
 after_success:
   # Stores hashes of created package to ensure upload successful
