@@ -31,6 +31,7 @@ mkdir templates/
 mkdir static/
 cp ../webapp/dist/*.html templates/
 cp -r ../webapp/dist/static/* static/
+cp -p config/settings.cfg.template config/settings.cfg
 cd ..
 
 # Run application locally on port :5000 (Press CTRL+C to quit)

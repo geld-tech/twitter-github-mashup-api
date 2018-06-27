@@ -20,11 +20,17 @@
         </b-row>
         <b-row align-v="start">
             <b-col>
-                <ul id="github">
-                  <li v-for="(index, item) in data" v-bind:key="index"><a href="#" v-on:click="selected=item">{{ item }}</a></li>
-                </ul>
+                <div v-if="loading" class="loading">
+                  <img src="../src/assets/spinner.gif" width="32" height="32"/>
+                </div>
+                <div v-else>
+                    <ul id="github">
+                      <li v-for="(index, item) in data" v-bind:key="index"><a href="#" v-on:click="selected=item">{{ item }}</a></li>
+                    </ul>
+                </div>
             </b-col>
-            <b-col></b-col>
+            <b-col>
+            </b-col>
         </b-row>
     </b-container>
   </div>
@@ -41,22 +47,29 @@ export default {
         keyword: ''
       },
       data: [],
-      selected: '',
       projects: [],
       tweets: [],
+      selected: '',
+      loading: false,
       show: true
     }
   },
   methods: {
     onSubmit(evt) {
+      this.loading = true
       evt.preventDefault()
-      fetchData(this.form.keyword).then(response => { this.data = response.data })
+      fetchData(this.form.keyword)
+        .then(response => {
+          this.data = response.data
+          this.loading = false
+        })
     },
     onReset(evt) {
       evt.preventDefault()
       /* Reset our form values */
       this.form.keyword = ''
       this.data = ''
+      this.loading = false
       /* Trick to reset/clear native browser form validation state */
       this.show = false
       this.$nextTick(() => { this.show = true })
@@ -73,5 +86,8 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
   padding-top: 70px;
+}
+.loading {
+    align: center;
 }
 </style>
