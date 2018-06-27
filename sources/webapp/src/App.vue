@@ -24,12 +24,18 @@
                   <img src="../src/assets/spinner.gif" width="32" height="32"/>
                 </div>
                 <div v-else>
-                    <ul id="github">
-                      <li v-for="(index, item) in data" v-bind:key="index"><a href="#" v-on:click="selected=item">{{ item }}</a>({{ data[item].length }})</li>
+                    <ul id="projects">
+                      <li v-for="(index, item) in data" v-bind:key="index">
+                        <p v-if="data[item].length > 0"><a href="#" v-on:click="selected=item">{{ item }}</a> ({{ data[item].length }} tweets)</p>
+                        <p v-else>{{ item }} (no tweets)</p>
+                      </li>
                     </ul>
                 </div>
             </b-col>
             <b-col>
+                <ul id="tweets">
+                  <li v-for="(text, index) in tweets" v-bind:key="index"><p>{{ text }}</p></li>
+                </ul>
             </b-col>
         </b-row>
     </b-container>
@@ -47,7 +53,6 @@ export default {
         keyword: ''
       },
       data: [],
-      tweets: [],
       selected: '',
       loading: false,
       show: true
@@ -67,11 +72,23 @@ export default {
       evt.preventDefault()
       /* Reset our form values */
       this.form.keyword = ''
-      this.data = ''
+      this.data = []
+      this.selected = ''
       this.loading = false
       /* Trick to reset/clear native browser form validation state */
       this.show = false
       this.$nextTick(() => { this.show = true })
+    }
+  },
+  computed: {
+    tweets: function () {
+      var mentions = []
+      if (this.selected !== '') {
+        for (var i = 0, len = this.data[this.selected].length; i < len; i++) {
+          mentions.push(this.data[this.selected][i]['user']['name'] + ': ' + this.data[this.selected][i]['text'])
+        }
+      }
+      return mentions
     }
   }
 }
