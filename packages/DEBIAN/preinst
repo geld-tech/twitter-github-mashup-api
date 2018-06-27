@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+echo "Pre-Installation Macro"
+
+case "$1" in
+	upgrade)
+		echo -n "Stopping service __PACKAGE_NAME__ ..."
+		systemctl stop __PACKAGE_NAME__ || true
+		echo " OK"
+		;;
+	*)
+		echo "Pre-Installation Macro called with unknown argument \`$1'" >&2
+		exit 1
+		;;
+esac

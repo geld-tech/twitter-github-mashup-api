@@ -20,8 +20,12 @@ case "$1" in
 			echo -n "Starting service..."
 			systemctl daemon-reload
 			systemctl enable __PACKAGE_NAME__ || true
-			systemctl start __PACKAGE_NAME__ || true
+			#systemctl start __PACKAGE_NAME__ || true
 			echo " OK"
+			echo ""
+			echo "Service __PACKAGE_NAME__ installed successfully!"
+			echo ""
+			echo "Edit the file __PACKAGE_DIR__/config/settings with your credentials, then execute 'systemctl start __PACKAGE_NAME__'."
 		fi
 		;;
 esac
