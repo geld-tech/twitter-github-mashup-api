@@ -5,3 +5,5 @@ echo "Pre-Removal Macro"
 
 systemctl disable __PACKAGE_NAME__ || true
 systemctl stop __PACKAGE_NAME__ || true
+
+exit 0
