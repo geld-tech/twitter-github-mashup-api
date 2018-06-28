@@ -15,6 +15,7 @@ addons:
   apt:
     packages:
     - fakeroot
+    - python-flake8
 
 language: node_js
 node_js:
@@ -60,6 +61,12 @@ install:
   - npm audit
   - npm run build
   - cd ../..
+  # Flask application
+  - cd sources/server/
+  # Enforce no syntax errors or undefined names
+  - flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics
+  # Displays other potential issues with coding style as warnings only
+  - flake8 . --count --exit-zero --max-complexity=10 --statistics
 
 before_script:
   # Create the package directories structure
@@ -125,6 +132,7 @@ after_deploy:
   - sleep 120
   
   # Retrieve SHA256 sum and compare with local sum to ensure correct file uploaded
+  # (Useful to detect upload issues or problems with Bintray)
   - export REMOTE_SHA256=$(curl -L -v --silent https://bintray.com/$BINTRAY_SUBJECT/$BINTRAY_REPO_NAME/download_file?file_path=Packages.gz | zcat | grep -A 3 $PACKAGE_VERSION_DEB | grep SHA256 | cut -d" " -f2)
   - 'echo "REMOTE_SHA256: $REMOTE_SHA256"'
   - >
