@@ -11,7 +11,7 @@ case "$1" in
 		systemctl stop __PACKAGE_NAME__ || true
 		echo " OK"
 		echo ""
-		if [ -f __PACKAGE_DIR__/config/settings.cfg.template ]; then
+		if [ -f __PACKAGE_DIR__/config/settings.cfg ]; then
 			echo -n "Preserving local configuration before upgrade..."
 			cp -p __PACKAGE_DIR__/config/settings.cfg /tmp/__PACKAGE_NAME__.settings.cfg
 			echo " OK"
