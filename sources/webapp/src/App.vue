@@ -15,8 +15,8 @@
     <!-- Container -->
     <b-container class="bv-example-row">
         <b-row align-v="start">
-            <b-col>Twitter</b-col>
-            <b-col>GitHub</b-col>
+            <b-col>GitHub Projects</b-col>
+            <b-col>Twitter Mentions</b-col>
         </b-row>
         <b-row align-v="start">
             <b-col>
@@ -26,8 +26,8 @@
                 <div v-else>
                     <ul id="projects">
                       <li v-for="(index, item) in data" v-bind:key="index">
-                        <p v-if="data[item].length > 0"><a href="#" v-on:click="selected=item">{{ item }}</a> ({{ data[item].length }} tweets)</p>
-                        <p v-else>{{ item }} (no tweets)</p>
+                        <p v-if="data[item].length > 0"><a href="#" v-on:click="selected=item">{{ item }}</a><br />({{ data[item].length }} tweets)</p>
+                        <p v-else>{{ item }}<br />(no tweets)</p>
                       </li>
                     </ul>
                 </div>
@@ -121,5 +121,11 @@ export default {
     width: 50%;
     margin: 0;
     padding-left: 20px;
+}
+#projects ul {
+  list-style-type: none;
+}
+#tweets ul {
+  list-style-type: none;
 }
 </style>
