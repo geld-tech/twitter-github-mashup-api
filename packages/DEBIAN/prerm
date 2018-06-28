@@ -3,15 +3,10 @@ set -e
 
 echo "Pre-Removal Macro"
 
-case "$1" in
-        *)
-                echo "Pre-Installation Macro called with argument \`$1'" >&2
-                exit 1
-                ;;
-esac
-
 systemctl disable __PACKAGE_NAME__ || true
 systemctl stop __PACKAGE_NAME__ || true
+
+echo "Pre-Installation Macro called with argument: $1 ." >&2
 
 #rm -f __PACKAGE_DIR__/config/settings.cfg
 
