@@ -18,8 +18,8 @@ find . -type f | xargs sed -i "s/__DATE__/01-01-1970/g"
 
 # Flask application, enforce no syntax errors or undefined names, and flags other issues
 cd server/
-flake8 . --exclude=dependencies --count --select=E901,E999,F821,F822,F823 --show-source --statistics
-flake8 . --exclude=dependencies --count --exit-zero --max-complexity=10 --statistics
+flake8 . --exclude=dependencies --ignore=E501 --count --select=E901,E999,F821,F822,F823 --show-source --statistics
+flake8 . --exclude=dependencies --ignore=E501 --count --exit-zero --max-complexity=10 --statistics
 cd ..
 
 # Build Vue application with DevTools enabled (Firefox or Chrome plugin)
