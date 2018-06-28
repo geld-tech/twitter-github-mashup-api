@@ -28,6 +28,7 @@ env:
   global:
   - PACKAGE_NAME=twitter-github-mashup-api
   - PACKAGE_DESC="Twitter and GitHub APIs Mashup Application built with Python Flask and Vue"
+  - PACKAGE_AUTHOR=geld.tech
   - BINTRAY_REPO_NAME=debian
   - BINTRAY_LICENSE=Apache-2.0
   - BINTRAY_DESCRIPTOR=bintray-descriptor.json.in
@@ -92,11 +93,12 @@ after_success:
 before_deploy:
   # Set the packages name and details in the descriptor file
   - sed -i "s/__NAME__/$PACKAGE_NAME/g" $BINTRAY_DESCRIPTOR
+  - sed -i "s/__PACKAGE_DESC__/$PACKAGE_DESC/g" $BINTRAY_DESCRIPTOR
+  - sed -i "s/__PACKAGE_AUTHOR__/$PACKAGE_AUTHOR/g" $BINTRAY_DESCRIPTOR
   - sed -i "s/__REPO_NAME__/$BINTRAY_REPO_NAME/g" $BINTRAY_DESCRIPTOR
   - sed -i "s/__SUBJECT__/$BINTRAY_SUBJECT/g" $BINTRAY_DESCRIPTOR
   - sed -i "s/__LICENSE__/$BINTRAY_LICENSE/g" $BINTRAY_DESCRIPTOR
   - sed -i "s/__VERSION__/$BUILD_VERSION/g" $BINTRAY_DESCRIPTOR
-  - sed -i "s/__PACKAGE_DESC__/$PACKAGE_DESC/g" $BINTRAY_DESCRIPTOR
 
 deploy:
   # Upload debian packages to Bintray

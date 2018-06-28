@@ -6,19 +6,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="__PACKAGE_DESC__">
-    <meta name="author" content="{{ page_domain }}">
+    <meta name="author" content="__PACKAGE_AUTHOR__">
 
-    <title>{{ page_domain + ' - ' if data }}{{ page_title }}</title>
+    <title>__PACKAGE_NAME__</title>
 
-    <meta property="og:title" content="{{ page_title }}">
+    <meta property="og:title" content="__PACKAGE_NAME__">
     <meta property="og:description" content="__PACKAGE_DESC__">
-    <meta property="og:site_name" content="{{ page_title }}">
+    <meta property="og:site_name" content="__PACKAGE_NAME__">
     <meta property="og:type" content= "website">
     <meta property="og:image" content="{{ url_for('static', filename='images/geld.tech_128x128.png') }}">
     <meta property="og:url" content="{{ request.url }}">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:domain" content="{{ page_domain }}">
-    <meta name="twitter:title" content="{{ page_title }}">
+    <meta name="twitter:domain" content="__PACKAGE_AUTHOR__">
+    <meta name="twitter:title" content="__PACKAGE_NAME__">
     <meta name="twitter:description" content="__PACKAGE_DESC__">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
