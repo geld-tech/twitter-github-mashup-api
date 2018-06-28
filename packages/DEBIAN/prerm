@@ -7,7 +7,6 @@ if [ "$1" = "remove" ]; then
 	systemctl disable __PACKAGE_NAME__ || true
 	systemctl stop __PACKAGE_NAME__ || true
 
-	dpkg-divert --remove --package __PACKAGE_NAME__ --rename --divert /tmp/__PACKAGE_NAME__.settings.cfg __PACKAGE_DIR__/config/settings.cfg
 	rm -f __PACKAGE_DIR__/config/settings.cfg
 fi
 
