@@ -16,6 +16,12 @@ find . -type f | xargs sed -i "s/__PACKAGE_DESC__/Running application locally/g"
 find . -type f | xargs sed -i "s/__VERSION__/0.0.1/g"
 find . -type f | xargs sed -i "s/__DATE__/01-01-1970/g"
 
+# Flask application, enforce no syntax errors or undefined names, and flags other issues
+cd server/
+flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics
+flake8 . --count --exit-zero --max-complexity=10 --statistics
+cd ..
+
 # Build Vue application with DevTools enabled (Firefox or Chrome plugin)
 cd webapp/
 sed -i '/Vue.config.productionTip = false/a Vue.config.devtools = true' src/main.js
