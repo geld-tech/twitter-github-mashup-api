@@ -21,7 +21,7 @@
         <b-row align-v="start">
             <b-col>
                 <div v-if="loading" class="loading">
-                  <img src="../src/assets/spinner.gif" width="32" height="32"/>
+                  <img src="/static/images/spinner.gif" width="32" height="32"/>
                 </div>
                 <div v-else>
                     <ul id="projects">
