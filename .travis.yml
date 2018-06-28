@@ -64,9 +64,9 @@ install:
   # Flask application
   - cd sources/server/
   # Enforce no syntax errors or undefined names
-  - flake8 . --exclude=dependencies --count --select=E901,E999,F821,F822,F823 --show-source --statistics
+  - flake8 . --exclude=dependencies --ignore=E501 --count --select=E901,E999,F821,F822,F823 --show-source --statistics
   # Displays other potential issues with coding style as warnings only
-  - flake8 . --exclude=dependencies --count --exit-zero --max-complexity=10 --statistics
+  - flake8 . --exclude=dependencies --ignore=E501 --count --exit-zero --max-complexity=10 --statistics
   - cd ../..
 
 before_script:
