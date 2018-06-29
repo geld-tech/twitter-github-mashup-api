@@ -27,7 +27,9 @@ cd webapp/
 sed -i '/Vue.config.productionTip = false/a Vue.config.devtools = true' src/main.js
 npm install
 npm run lint
-npm audit
+set +e     # Ignores a particular command
+npm audit  # As doesn't seem installed on all systems
+set -e     # Then return to normal failures on all errors
 npm run build
 cd ..
 
