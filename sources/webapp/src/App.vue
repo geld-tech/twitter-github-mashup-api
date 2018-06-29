@@ -20,12 +20,9 @@
     </div>
     <!-- Container -->
     <b-container class="bv-example-row">
-        <b-row align-v="start">
-            <b-col><h3>GitHub Projects</h3></b-col>
-            <b-col><h3>Twitter Mentions</h3></b-col>
-        </b-row>
-        <b-row align-v="start">
-            <b-col>
+        <b-row align-v="start" align-h="around">
+            <b-col sm="4">
+                <h4>GitHub Projects</h4>
                 <div v-if="loading" class="loading">
                   <img src="/static/images/spinner.gif" width="32" height="32"/>
                 </div>
@@ -38,7 +35,8 @@
                     </ul>
                 </div>
             </b-col>
-            <b-col>
+            <b-col sm="4">
+                <h4>Twitter Mentions</h4>
                 <ul id="tweets" class="list-no-bullet">
                   <li v-if="show" v-for="(tweet, index) in tweets" v-bind:key="index" v-on:delete-row="deleteThisRow(index)">
                     <Tweet :id="tweet.id_str">
