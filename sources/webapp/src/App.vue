@@ -113,10 +113,9 @@ export default {
       this.$nextTick(() => { this.show = true })
     },
     sanitizeString(input) {
-      var blackList = ['/', '\\', '&', ';']
-      for (var char in blackList) {
-        input = input.replace(char, '')
-      }
+      input = input.trim()
+      input = input.replace(/[`~!$%^&*|+?;:'",\\]/gi, '')
+      input = input.replace('/', '')
       input = input.trim()
       return input
     },
