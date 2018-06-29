@@ -44,6 +44,7 @@ def index():
 
 @app.route("/search/<keyword>")
 def hi(keyword=None):
+    keyword = sanitize_user_input(keyword)
     if keyword:
         data = getProjectsTweets(keyword)
         return jsonify({"data": data}), 200
@@ -64,6 +65,13 @@ def oauth_req(url, key, secret, http_method="GET", post_body="", http_headers=No
     client = oauth2.Client(consumer, token)
     resp, content = client.request(url, method=http_method, body=post_body, headers=http_headers)
     return content
+
+
+def sanitize_user_input(keyword):
+    black_list = ['__import__', '/', '\\', '&', ';']
+    for char in black_list:
+        keyword = keyword.replace(char, '')
+    return keyword
 
 
 def getProjectsTweets(keyword):
