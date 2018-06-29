@@ -68,14 +68,17 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault()
-      this.loading = true
-      this.selected = ''
-      this.data = []
-      /* Trick to reset/clear native browser form validation state */
-      this.show = false
-      this.$nextTick(() => { this.show = true })
-      if (this.form.keyword !== '') {
-        fetchData(this.form.keyword)
+      var searchKeyword = this.sanitizeString(this.form.keyword)
+      this.form.keyword = ''
+      if (searchKeyword !== '') {
+        /* Trick to reset/clear native browser form validation state */
+        this.selected = ''
+        this.data = []
+        this.show = false
+        this.$nextTick(() => { this.show = true })
+        /* Fetching the data */
+        this.loading = true
+        fetchData(searchKeyword)
           .then(response => {
             this.data = response.data
             this.loading = false
@@ -92,6 +95,14 @@ export default {
       /* Trick to reset/clear native browser form validation state */
       this.show = false
       this.$nextTick(() => { this.show = true })
+    },
+    sanitizeString(input) {
+      var blackList = ['/', '\\', '&', ';']
+      for (var char in blackList) {
+        input = input.replace(char, '')
+      }
+      input = input.trim()
+      return input
     },
     selectProject(project) {
       if (this.selected === project) {
