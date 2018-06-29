@@ -62,6 +62,7 @@ export default {
       data: [],
       selected: '',
       loading: false,
+      error: '',
       show: true
     }
   },
@@ -81,6 +82,10 @@ export default {
         fetchData(searchKeyword)
           .then(response => {
             this.data = response.data
+            this.loading = false
+          })
+          .catch(err => {
+            this.error = err.message
             this.loading = false
           })
       }
