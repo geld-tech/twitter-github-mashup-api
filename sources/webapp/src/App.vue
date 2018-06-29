@@ -12,6 +12,12 @@
             </b-nav-form>
         </b-navbar-nav>
     </b-navbar>
+    <!-- Alerting -->
+    <div class="alerting col-md-4 col-md-offset-4">
+      <b-alert :show="dismissCountDown" dismissible variant="danger" @dismissed="error=''" @dismiss-count-down="countDownChanged">
+        <p>{{ error }}</p>
+      </b-alert>
+    </div>
     <!-- Container -->
     <b-container class="bv-example-row">
         <b-row align-v="start">
@@ -62,6 +68,7 @@ export default {
       data: [],
       selected: '',
       loading: false,
+      dismissCountDown: 0,
       error: '',
       show: true
     }
@@ -71,6 +78,9 @@ export default {
       evt.preventDefault()
       var searchKeyword = this.sanitizeString(this.form.keyword)
       this.form.keyword = ''
+      this.loading = false
+      this.dismissCountDown = 0
+      this.error = ''
       if (searchKeyword !== '') {
         /* Trick to reset/clear native browser form validation state */
         this.selected = ''
@@ -87,6 +97,7 @@ export default {
           .catch(err => {
             this.error = err.message
             this.loading = false
+            this.dismissCountDown = 6
           })
       }
     },
@@ -119,6 +130,9 @@ export default {
         this.selected = project
       }
       return true
+    },
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
     }
   },
   computed: {
@@ -167,15 +181,22 @@ export default {
 @media screen and (max-width: 600px) {
   #app {
     margin-top: 15px;
+    margin-bottom: 10px;
     padding-top: 170px;
     font-size: 14px;
   }
 }
+.alerting {
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+  line-height: 15px;
+}
 .loading {
-    width: 50%;
-    margin: 0;
-    padding-top: 40px;
-    padding-left: 40px;
+  width: 50%;
+  margin: 0;
+  padding-top: 40px;
+  padding-left: 40px;
 }
 .list-no-bullet {
   padding: 0;
